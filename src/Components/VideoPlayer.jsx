@@ -140,8 +140,8 @@ const VideoPlayer = () => {
       {/* Main Video Section */}
       <div className="lg:w-[70%] flex flex-col gap-4 ">
         {/* Video Player */}
-        <div className="relative w-full lg:h-[60vh] h-[22vh]">
-          <video src={video.videoFile} controls className="w-full h-full object-contain" />
+        <div className="relative w-full lg:h-[60vh] h-[30vh] p-1 ">
+          <video src={video.videoFile} controls className="w-full h-full object-contain rounded-md border  shadow-black shadow-inner" />
         </div>
   
         {/* Video Details Section */}
@@ -192,7 +192,7 @@ const VideoPlayer = () => {
           {commentBox && (
             <div
               ref={commentSectionRef}  // <-- Add ref here
-              className="fixed bottom-0 left-0 w-full bg-green-300 text-black h-[70vh] p-4 shadow-lg lg:static lg:shadow-none lg:p-0"
+              className="fixed bottom-0 left-0 w-full bg-green-300 text-black h-[58vh] p-4 shadow-lg lg:static lg:shadow-none lg:p-0"
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">Comments</h2>
