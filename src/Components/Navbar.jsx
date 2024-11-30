@@ -10,22 +10,27 @@ function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleLoginRoute = () => {
+        setIsMenuOpen(false)
         navigate('/login');
     };
 
     const handleCreatorRoute = () => {
+        setIsMenuOpen(false)
         navigate('/userspage');
     };
 
     const handleRegisterRoute = () => {
+        setIsMenuOpen(false)
         navigate('/register');
     };
 
     const handleHomeRoute = () => {
+        setIsMenuOpen(false)
         navigate('/');
     };
 
     const handleLogOut = () => {
+        setIsMenuOpen(false)
         logout();  // Call logout function to clear authentication state
         navigate('/login');  // Redirect to login page
     };

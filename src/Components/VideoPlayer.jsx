@@ -109,7 +109,7 @@ const VideoPlayer = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/v1/post/${video._id}/comments`,
+        `${backendUrl}/api/v1/post/${video._id}/comments`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -138,9 +138,9 @@ const VideoPlayer = () => {
   return (
     <div className="flex flex-col lg:flex-row gap-4">
       {/* Main Video Section */}
-      <div className="lg:w-[70%] flex flex-col gap-4 mt-1">
+      <div className="lg:w-[70%] flex flex-col gap-4 ">
         {/* Video Player */}
-        <div className="relative w-full lg:h-[60vh]">
+        <div className="relative w-full lg:h-[60vh] h-[22vh]">
           <video src={video.videoFile} controls className="w-full h-full object-contain" />
         </div>
   
@@ -192,10 +192,10 @@ const VideoPlayer = () => {
           {commentBox && (
             <div
               ref={commentSectionRef}  // <-- Add ref here
-              className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-lg lg:static lg:shadow-none lg:p-0"
+              className="fixed bottom-0 left-0 w-full bg-green-300 text-black h-[70vh] p-4 shadow-lg lg:static lg:shadow-none lg:p-0"
             >
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">Comments</h2>
+                <h2 className="text-lg font-bold">Comments</h2>
                 <button
                   className="text-gray-700"
                   onClick={() => setCommentBox(false)}
@@ -215,7 +215,7 @@ const VideoPlayer = () => {
                   onClick={handleCommentSubmit}
                   className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md"
                 >
-                  Post Comment
+                  Post
                 </button>
               </div>
               <div className="h-48 overflow-y-auto">
@@ -239,14 +239,15 @@ const VideoPlayer = () => {
             .filter((vid) => vid._id !== video._id)
             .map((suggestedVideo) => (
               <div
-                key={suggestedVideo._id}
-                onClick={() =>
-                  navigate(`/video/${suggestedVideo._id}`, {
-                    state: { video: suggestedVideo },
-                  })
-                }
-                className="flex items-start gap-4 cursor-pointer"
-              >
+             key={suggestedVideo._id}
+             onClick={() => {
+             navigate(`/video/${suggestedVideo._id}`, {
+            state: { video: suggestedVideo },
+             });
+             window.scrollTo({ top: 0, behavior: 'instant' }); // Scroll to top
+            }}
+  className="flex items-start gap-4 cursor-pointer"
+>
                 <video
                   src={suggestedVideo.videoFile}
                   className="w-24 h-16 object-cover rounded"
