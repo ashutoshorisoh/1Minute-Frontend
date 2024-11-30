@@ -13,10 +13,11 @@ function Login() {
   const { login } = useAuth();
   const { setcontextUser } = useUser(); // Update based on `UserContext`
   const navigate = useNavigate();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch('http://localhost:8000/api/v1/users/login', {
+      const response = await fetch(`${backendUrl}/api/v1/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

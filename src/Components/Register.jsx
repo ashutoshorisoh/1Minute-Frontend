@@ -14,7 +14,7 @@ const RegisterForm = () => {
   const { setcontextUser } = useUser();
   const navigate = useNavigate();
   const { login } = useAuth();
-
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const handleAvatarChange = (e) => {
     setAvatar(e.target.files[0]);
@@ -38,7 +38,7 @@ const RegisterForm = () => {
     formData.append('avatar', avatar); // Add avatar file
 
     try {
-      const response = await fetch('http://localhost:8000/api/v1/users/register', {
+      const response = await fetch(`${backendUrl}/api/v1/users/register`, {
         method: 'POST',
         body: formData,
       });

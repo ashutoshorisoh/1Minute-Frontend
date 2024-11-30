@@ -4,6 +4,8 @@ import { useUser } from '../context/UserContext'; // Import the useUser hook
 function Posts() {
   const [post, setPost] = useState(null);
   const [title, setTitle] = useState('');
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 
   // Get the username from context
   const { contextUser } = useUser();
@@ -33,7 +35,7 @@ function Posts() {
     formData.append('username', contextUser); // Use the username from context
 
     try {
-      const response = await fetch('http://localhost:8000/api/v1/users/post', {
+      const response = await fetch(`${backendUrl}/api/v1/users/post`, {
         method: 'POST',
         body: formData,
       });

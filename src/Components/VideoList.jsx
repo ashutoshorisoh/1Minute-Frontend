@@ -8,11 +8,12 @@ const VideoList = () => {
 
   const { logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/v1/videos'); 
+        const response = await fetch(`${backendUrl}/api/v1/videos`); 
         const data = await response.json();
         setVideos(data.message.data || []);
       } catch (error) {

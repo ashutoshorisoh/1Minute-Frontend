@@ -10,6 +10,7 @@ const UsersPage = () => {
   const { isAuthenticated } = useAuth();
   const { contextUser } = useUser();
   const navigate = useNavigate();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     /*if (!isAuthenticated) {
@@ -19,7 +20,7 @@ const UsersPage = () => {
 
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/v1/users/userlist');
+        const response = await fetch(`${backendUrl}/api/v1/users/userlist`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
