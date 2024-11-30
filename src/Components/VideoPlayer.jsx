@@ -140,7 +140,7 @@ const VideoPlayer = () => {
       {/* Main Video Section */}
       <div className="lg:w-[70%] flex flex-col gap-4 ">
         {/* Video Player */}
-        <div className="relative w-full lg:h-[60vh] h-[30vh] p-1 ">
+        <div className="relative w-full lg:h-[60vh] h-[30vh] p-0.5 ">
           <video src={video.videoFile} controls className="w-full h-full object-contain rounded-md border  shadow-black shadow-inner" />
         </div>
   
@@ -232,9 +232,9 @@ const VideoPlayer = () => {
       </div>
 
       {/* Suggested Videos Section */}
-      <div className="lg:w-[30%] p-4">
+      <div className="lg:w-[40%] p-4">
         <h2 className="text-lg font-semibold mb-4">Suggested Videos</h2>
-        <div className="space-y-4">
+        <div className="space-y-4 ">
           {videos
             .filter((vid) => vid._id !== video._id)
             .map((suggestedVideo) => (
@@ -246,7 +246,7 @@ const VideoPlayer = () => {
              });
              window.scrollTo({ top: 0, behavior: 'instant' }); // Scroll to top
             }}
-  className="flex items-start gap-4 cursor-pointer"
+  className="flex items-start gap-4 cursor-pointer border border-slate-400 pb-1 pt-1 pl-1 rounded-md shadow-sm shadow-black"
 >
                 <video
                   src={suggestedVideo.videoFile}

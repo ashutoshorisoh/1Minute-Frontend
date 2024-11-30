@@ -36,15 +36,15 @@ const VideoList = () => {
 
   return (
     <div className="h-full pb-2 flex flex-col pl-2 pr-2 bg-white">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 pt-2">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 pt-0.5">
         {videos.length > 0 ? (
           videos.map((video) => (
             <div 
               key={video._id} 
-              className="video-item bg-black rounded-md shadow-md overflow-hidden hover:shadow-xl transition-all duration-200 ease-in-out cursor-pointer border-black border"
+              className="video-item bg-black rounded-xl shadow-2xl shadow-slate-950 overflow-hidden hover:shadow-xl transition-all duration-200 ease-in-out cursor-pointer border-black border hover:border-none"
               onClick={() => handleVideoClick(video)}
             >
-              <div className="video-thumbnail relative pb-[56.25%]"> {/* 16:9 aspect ratio */}
+              <div className="video-thumbnail relative pb-[56.25%] "> {/* 16:9 aspect ratio */}
                 <video className="absolute top-0 left-0 w-full h-full object-contain pb-1">
                   <source src={video.videoFile} type="video/mp4" />
                   Your browser does not support the video tag.
