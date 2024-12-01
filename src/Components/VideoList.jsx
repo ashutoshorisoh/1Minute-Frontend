@@ -27,7 +27,35 @@ const VideoList = () => {
   }, []); // Empty dependency array means it runs once after the component mounts
 
   if (loading) {
-    return <div className="text-center text-xl">Loading videos...</div>;
+    return (
+    <div className=" flex flex-col pl-2 gap-2 justify-center items-center pr-2 bg-white h-full pt-0.5">
+       <div className='flex flex-row w-full gap-2'>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+       </div>
+       <div className='flex flex-row w-full gap-2'>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+       </div>
+       <div className='flex flex-row w-full gap-2'>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+       </div>
+       <div className='flex flex-row w-full gap-2'>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+       </div>
+       <div className='flex flex-row w-full gap-2'>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+         <div className='flex-grow aspect-video bg-black rounded-xl shadow-2xl '></div>
+       </div>
+    </div>
+  );
   }
 
   const handleVideoClick = (video) => {
