@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Heart, MessageCircle, Forward, BookMarked } from "lucide-react";
 import { useUser } from "../context/UserContext";
 import { useAuth } from "../context/AuthContext";
-import { useRef } from "react";
 
 const VideoPlayer = () => {
   const { contextUser } = useUser(); // Access authenticated user
@@ -17,6 +16,7 @@ const VideoPlayer = () => {
   const [newComment, setNewComment] = useState(""); // State for the new comment input
   const [commentList, setCommentList] = useState([]); // State to manage comment list
   const commentSectionRef = useRef(null);
+  const videoRef = useRef(null);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const location = useLocation();
@@ -29,19 +29,19 @@ const VideoPlayer = () => {
     return null;
   }
 
-  useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const response = await fetch(`${backendUrl}/api/v1/videos`);
-        const data = await response.json();
-        setVideos(data.message.data || []);
-      } catch (error) {
-        console.error("Error fetching videos:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchVideos = useCallback(async () => {
+    try {
+      const response = await fetch(`${backendUrl}/api/v1/videos`);
+      const data = await response.json();
+      setVideos(data.message.data || []);
+    } catch (error) {
+      console.error("Error fetching videos:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [backendUrl]);
 
+  useEffect(() => {
     fetchVideos();
 
     // Initialize like and comment counts
@@ -50,8 +50,8 @@ const VideoPlayer = () => {
     setCommentList(video.comments || []); // Set initial comment list
 
     // Check if user has liked the video
-    setLikedByUser(video.likes?.some(like => like.username === contextUser));
-  }, [video, contextUser]);
+    setLikedByUser(video.likes?.some((like) => like.username === contextUser));
+  }, [video, contextUser, fetchVideos]);
 
   const handleLikeToggle = async () => {
     if (!isAuthenticated) {
@@ -71,10 +71,8 @@ const VideoPlayer = () => {
 
       if (response.ok) {
         const updatedVideo = await response.json();
-
-        // Update likes count and likedByUser state
         setLikes(updatedVideo.message.likes.length);
-        setLikedByUser(updatedVideo.message.likes.some(like => like.username === contextUser));
+        setLikedByUser(updatedVideo.message.likes.some((like) => like.username === contextUser));
       } else {
         alert("Failed to update like.");
       }
@@ -87,7 +85,6 @@ const VideoPlayer = () => {
     setCommentBox((prevState) => {
       const newState = !prevState;
       if (newState && commentSectionRef.current) {
-        // Wait for the component to re-render before calling scrollIntoView
         setTimeout(() => {
           commentSectionRef.current.scrollIntoView({
             behavior: "smooth",
@@ -119,7 +116,6 @@ const VideoPlayer = () => {
 
       if (response.ok) {
         const updatedVideo = await response.json();
-        // Update the comment list with the new comment
         setCommentList(updatedVideo.message.comments);
         setComments(updatedVideo.message.comments.length); // Update the comment count
         setNewComment(""); // Reset the input field
@@ -131,6 +127,21 @@ const VideoPlayer = () => {
     }
   };
 
+  const setPosterImage = (videoFile) => {
+    // Use canvas to extract the first frame as a thumbnail
+    if (videoFile && videoRef.current) {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      const videoElement = videoRef.current;
+
+      videoElement.onloadeddata = () => {
+        ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        const imageDataUrl = canvas.toDataURL();
+        videoElement.poster = imageDataUrl;
+      };
+    }
+  };
+
   if (loading) {
     return <div className="text-center text-xl">Loading videos...</div>;
   }
@@ -138,32 +149,35 @@ const VideoPlayer = () => {
   return (
     <div className="flex flex-col lg:flex-row gap-4">
       {/* Main Video Section */}
-      <div className="lg:w-[70%] flex flex-col gap-4 ">
+      <div className="lg:w-[70%] flex flex-col gap-4">
         {/* Video Player */}
-        <div className="relative w-full lg:h-[60vh] h-[30vh] p-0.5 ">
-          <video src={video.videoFile} controls className="w-full h-full object-contain rounded-md border  shadow-black shadow-inner" />
+        <div className="relative w-full lg:h-[60vh] h-[30vh] p-0.5">
+          <video
+            ref={videoRef}
+            src={video.videoFile}
+            controls
+            className="w-full h-full object-contain rounded-md border shadow-black shadow-inner"
+            onLoadedData={() => setPosterImage(video.videoFile)} // Set poster once the video data is loaded
+          />
         </div>
-  
+
         {/* Video Details Section */}
         <div className="p-4">
           <div className="mb-4">
             <h1 className="text-xl font-semibold">{video.title}</h1>
             <p className="text-gray-500">{video.views} views</p>
           </div>
-  
+
           {/* Action Buttons */}
           <div ref={commentSectionRef} className="flex items-center gap-4 mb-4">
             <button
               className="flex items-center gap-2 text-gray-700"
               onClick={handleLikeToggle}
             >
-             <Heart
-  className={likedByUser ? "fill-red-500" : ""} // Change the fill color based on the state
-/>
-
+              <Heart className={likedByUser ? "fill-red-500" : ""} />
               <p>{likes}</p>
             </button>
-  
+
             <button
               className="flex items-center gap-2 text-gray-700"
               onClick={handleCommentBox}
@@ -171,30 +185,28 @@ const VideoPlayer = () => {
               <MessageCircle />
               <p>{comments}</p>
             </button>
-  
-            <button className="flex items-center gap-2 text-gray-700">
-              <Forward />
-            </button>
-  
+
+            
+
             <button className="flex items-center gap-2 text-gray-700">
               <BookMarked />
             </button>
           </div>
-  
+
           {/* Video Owner */}
           <div className="mb-4">
             <button className="px-4 py-2 bg-gray-200 rounded-md">
               {video.owner[0]?.username || "Unknown"}
             </button>
           </div>
-  
+
           {/* Comments Section */}
           {commentBox && (
             <div
-              ref={commentSectionRef}  // <-- Add ref here
+              ref={commentSectionRef}
               className="fixed bottom-0 left-0 w-full bg-green-300 text-black h-[58vh] p-4 shadow-lg lg:static lg:shadow-none lg:p-0"
             >
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex justify-between items-center ml-4 pt-5 pr-5">
                 <h2 className="text-lg font-bold">Comments</h2>
                 <button
                   className="text-gray-700"
@@ -203,7 +215,7 @@ const VideoPlayer = () => {
                   ✕
                 </button>
               </div>
-              <div className="mb-4">
+              <div className="m-4">
                 <input
                   type="text"
                   value={newComment}
@@ -218,11 +230,10 @@ const VideoPlayer = () => {
                   Post
                 </button>
               </div>
-              <div className="h-48 overflow-y-auto">
+              <div className="h-48 ml-4 overflow-y-auto">
                 {commentList.map((comment) => (
                   <p key={comment._id} className="mb-2">
-                    <span className="font-semibold">{comment.username}:</span>{" "}
-                    {comment.comment}
+                    <span className="font-semibold">{comment.username}:</span> {comment.comment}
                   </p>
                 ))}
               </div>
@@ -234,46 +245,29 @@ const VideoPlayer = () => {
       {/* Suggested Videos Section */}
       <div className="lg:w-[40%] p-4">
         <h2 className="text-lg font-semibold mb-4">Suggested Videos</h2>
-        <div className="space-y-4 ">
+        <div className="space-y-4">
           {videos
             .filter((vid) => vid._id !== video._id)
             .map((suggestedVideo) => (
               <div
-             key={suggestedVideo._id}
-             onClick={() => {
-             navigate(`/video/${suggestedVideo._id}`, {
-            state: { video: suggestedVideo },
-             });
-             window.scrollTo({ top: 0, behavior: 'instant' }); // Scroll to top
-            }}
-  className="flex items-start gap-4 cursor-pointer border border-slate-400 pb-1 pt-1 pl-1 rounded-md shadow-sm shadow-black"
->
+                key={suggestedVideo._id}
+                onClick={() => navigate(`/video/${suggestedVideo._id}`, { state: { video: suggestedVideo } })}
+                className="flex items-center gap-4 cursor-pointer"
+              >
                 <video
                   src={suggestedVideo.videoFile}
+                  poster={suggestedVideo.thumbnail || ""}
                   className="w-24 h-16 object-cover rounded"
                 />
-                <div>
-                  <h1 className="text-sm font-semibold">{suggestedVideo.title}</h1>
-                  <p className="text-gray-500 text-xs">{suggestedVideo.views} views</p>
+                <div className="flex flex-col">
+                  <p className="text-sm font-semibold">{suggestedVideo.title}</p>
+                  <p className="text-xs text-gray-500">{suggestedVideo.views} views</p>
                 </div>
               </div>
             ))}
         </div>
       </div>
     </div>
-  
-
-
-  
-
-
-  
-  
-
-  
-
-
-  
   );
 };
 

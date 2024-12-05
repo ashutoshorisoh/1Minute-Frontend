@@ -52,24 +52,23 @@ const UsersPage = () => {
     trackMouse: true, // Allow swipe with mouse drag
   });
 
-  if (loading) return <div className="text-center mt-5">Loading...</div>;
+  if (loading) return <div className="text-center mt-5 text-white">Loading...</div>;
 
-  if (error) return <div className="text-red-500 text-center mt-5">Error: {error}</div>;
+  if (error) return <div className="text-red-500 text-center mt-5">{error}</div>;
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-black text-white lg:p-0 p-10">
-      <h2 className="text-3xl font-bold mb-6 text-center">Users</h2>
+    <div className="flex flex-col items-center justify-center h-screen bg-white text-black p-6">
       {users.length > 0 ? (
         <div
           {...swipeHandlers}
-          className="relative w-full max-w-lg h-96 bg-white text-black shadow-lg  shadow-slate-700 border border-black rounded-lg flex flex-col items-center justify-center p-6 text-center "
+          className="relative w-full max-w-md h-96 bg-gray-800 text-white shadow-xl border border-gray-700 rounded-lg flex flex-col items-center justify-center p-6 text-center"
         >
           <img
             src={users[currentIndex].avatar}
             alt={users[currentIndex].username}
-            className="w-32 h-32 rounded-full mb-4"
+            className="w-40 h-40 rounded-full mb-4 object-cover"
           />
-          <h3 className="text-xl font-semibold">{users[currentIndex].username}</h3>
+          <h3 className="text-2xl font-semibold">{users[currentIndex].username}</h3>
           <div className="absolute top-1/2 -translate-y-1/2 flex justify-between w-full px-4">
             <button
               onClick={handlePrev}
