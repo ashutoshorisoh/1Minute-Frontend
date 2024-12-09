@@ -67,7 +67,7 @@ const VideoList = () => {
             <div
               key={video._id}
               className="video-item bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out overflow-hidden cursor-pointer"
-              onClick={() => handleVideoClick(video)}
+             
             >
               <div className="video-thumbnail relative pb-[56.25%]"> {/* 16:9 Aspect Ratio */}
                 <video
@@ -76,18 +76,19 @@ const VideoList = () => {
                   loop
                   onMouseOver={(e) => e.target.play()}
                   onMouseOut={(e) => e.target.pause()}
+                  onClick={() => handleVideoClick(video)}
                 >
-                  <source src={video.videoFile} type="video/mp4" />
+                  <source src={video.videoFile} type="video/mp4"  />
                   Your browser does not support the video tag.
                 </video>
               </div>
               <div className="p-4">
-                <h3 className="text-lg flex justify-between font-semibold text-gray-800 truncate">
+                <h3 className="text-md lg:text-lg flex flex-wrap justify-between font-semibold text-gray-800 truncate">
                   <p>{video.title}</p>
-                  <p className='text-gray-600'>{video.views} views</p>
+                  <p className='text-gray-600 text-sm lg:text-md flex justify-center items-center'>{video.views} views</p>
                 </h3>
                 <div className="mt-2 text-sm text-gray-600 flex justify-between">
-                  <p>{video.owner[0]?.username || 'Unknown'}</p>
+                  <button>{video.owner[0]?.username || 'Unknown'}</button>
                   
                   <p>{new Date(video.createdAt).toLocaleDateString()}</p>
                 </div>
