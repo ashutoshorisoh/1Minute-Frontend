@@ -31,9 +31,20 @@ const VideoList = () => {
   }, []);
 
   // Navigate to video page
-  const handleVideoClick = (video) => {
-    navigate(`/video/${video._id}`, { state: { video } });
+  const handleVideoClick = async (video) => {
+    try {
+      // Update the views in the backend
+      await fetch(`${backendUrl}/api/v1/post/${video._id}/views`, {
+        method: "POST",
+      });
+  
+      // Navigate to the video page
+      navigate(`/video/${video._id}`, { state: { video } });
+    } catch (error) {
+      console.error("Error updating views:", error);
+    }
   };
+  
 
   if (loading) {
     return (
