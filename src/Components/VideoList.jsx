@@ -61,17 +61,17 @@ const VideoList = () => {
 
   return (
     <div className="h-full pb-4 bg-gradient-to-b from-gray-50 via-gray-100 to-gray-200">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-6 p-4 " >
         {videos.length > 0 ? (
           videos.map((video) => (
             <div
               key={video._id}
-              className="video-item bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out overflow-hidden cursor-pointer"
+              className="video-item bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 ease-in-out overflow-hidden cursor-pointer"
              
             >
               <div className="video-thumbnail relative pb-[56.25%]"> {/* 16:9 Aspect Ratio */}
                 <video
-                  className="absolute top-0 left-0 w-full h-full object-cover rounded-t-lg"
+                  className="absolute top-0 left-0 w-full h-full object-cover rounded-t-xl"
                   muted
                   loop
                   onMouseOver={(e) => e.target.play()}

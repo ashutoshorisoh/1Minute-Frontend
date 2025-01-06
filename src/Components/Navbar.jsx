@@ -118,25 +118,25 @@ function Navbar() {
                 {/* Flex container to keep content within the black box */}
                 <div className="flex justify-between items-end max-w-screen-xl mx-auto">
                     {/* Logo or Brand Name */}
-                    <div className="text-white text-2xl ml-[-110px]">Brand</div>
+                    <div className="text-green-300 lg:text-3xl text-lg font-bold  ml-[-110px]">vibeHub</div>
 
                     {/* Desktop Menu Icons - Hidden on mobile, visible on large screens */}
                     <div className="hidden lg:flex gap-5 items-center mr-[-110px]">
                         <button 
                             onClick={handleHomeRoute} 
-                            className="text-white py-3 px-5 rounded-md"
+                            className="text-white hover:text-green-400 py-3 px-5 rounded-md"
                         >
                             Home
                         </button>
                         <button 
                             onClick={handleCreatorRoute} 
-                            className="text-white py-3 px-5 rounded-md"
+                            className="text-white hover:text-green-400 py-3 px-5 rounded-md"
                         >
                             Creators
                         </button>
                         <button 
                             onClick={handleModal} 
-                            className="text-white py-3 px-5 rounded-md"
+                            className="text-white hover:text-green-400 py-3 px-5 rounded-md"
                         >
                             AddPost
                         </button>
@@ -145,13 +145,13 @@ function Navbar() {
                                 <>
                                     <button 
                                         onClick={handleLoginRoute} 
-                                        className="text-white py-3 px-5 rounded-md"
+                                        className="text-white hover:text-green-400 py-3 px-5 rounded-md"
                                     >
                                         Login
                                     </button>
                                     <button 
                                         onClick={handleRegisterRoute} 
-                                        className="text-white py-3 px-5 rounded-md"
+                                        className="text-white hover:text-green-400 py-3 px-5 rounded-md"
                                     >
                                         Register
                                     </button>
@@ -159,7 +159,7 @@ function Navbar() {
                             ) : (
                                 <button 
                                     onClick={handleLogOut} 
-                                    className="text-white py-3 px-5 rounded-md"
+                                    className="text-white py-3 px-5 rounded-md hover:text-green-400"
                                 >
                                     Logout
                                 </button>
@@ -170,7 +170,7 @@ function Navbar() {
                     {/* Mobile Hamburger Icon */}
                     {!isMenuOpen && (
                         <button 
-                            className="lg:hidden text-white z-60" // Set higher z-index here
+                            className="lg:hidden text-white z-60 hover:text-green-400" // Set higher z-index here
                             onClick={() => setIsMenuOpen(true)}
                         >
                             <div className="space-y-2">
@@ -198,20 +198,20 @@ function Navbar() {
     </button>
                         <button 
                             onClick={handleHomeRoute} 
-                            className="text-white py-3 px-5 my-2 rounded-md"
+                            className="text-white hover:text-green-400 py-3 px-5 my-2 rounded-md"
                         >
                             Home
                         </button>
                         
                         <button 
                             onClick={handleCreatorRoute} 
-                            className="text-white py-3 px-5 my-2 rounded-md"
+                            className="text-white hover:text-green-400 py-3 px-5 my-2 rounded-md"
                         >
                             Creators
                         </button>
                         <button 
                             onClick={handleModal} 
-                            className="text-white py-3 px-5 my-2 rounded-md"
+                            className="text-white hover:text-green-400 py-3 px-5 my-2 rounded-md"
                         >
                             AddPost
                         </button>
@@ -220,13 +220,13 @@ function Navbar() {
                                 <>
                                     <button 
                                         onClick={handleLoginRoute} 
-                                        className="text-white py-3 px-5 my-2 rounded-md"
+                                        className="text-white hover:text-green-400 py-3 px-5 my-2 rounded-md"
                                     >
                                         Login
                                     </button>
                                     <button 
                                         onClick={handleRegisterRoute} 
-                                        className="text-white py-3 px-5 my-2 rounded-md"
+                                        className="text-white hover:text-green-400 py-3 px-5 my-2 rounded-md"
                                     >
                                         Register
                                     </button>
@@ -234,7 +234,7 @@ function Navbar() {
                             ) : (
                                 <button 
                                     onClick={handleLogOut} 
-                                    className="text-white py-3 px-5 my-2 rounded-md"
+                                    className="text-white hover:text-green-400 py-3 px-5 my-2 rounded-md"
                                 >
                                     Logout
                                 </button>
