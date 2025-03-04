@@ -75,16 +75,21 @@ function Login() {
               className="border border-gray-300 rounded-md p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
-          </div>
+           </div>
 
           {/* Submit button */}
-          <div className="flex justify-center">
+          <div className="flex justify-center items-center flex-col">
+          <div className='inline'>login with <p className="inline font-bold">username:</p> arijitsingh</div>
+          <div className='inline'><p className="inline font-bold">password:</p> singharijit</div>
+
             <button
               type="submit"
               className="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg w-full mt-4 hover:bg-blue-600 disabled:bg-gray-300"
             >
               Login
             </button>
+            
+            
           </div>
         </form>
       </div>
